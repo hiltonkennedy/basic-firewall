@@ -1,0 +1,18 @@
+#!/bin/bash
+read -p "Enter the URL: " url  
+ip=$(ping -c 1 $url | grep -oP '(\d{1,3}\.){3}\d{1,3}' | head -n 1)
+if [[ -z "$ip" ]]; then
+  echo "Could not resolve IP address for $url."
+  exit 1
+fi
+
+echo "Resolved IP: $ip"
+sudo iptables -A INPUT -s "$ip" -p tcp -j DROP
+
+echo "Traffic from $ip is now blocked."
+ 
+
+
+
+
+
